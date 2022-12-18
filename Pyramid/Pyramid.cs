@@ -51,7 +51,7 @@ namespace Pyramid
 
             for (int i = 0; i < rowLength; i++ )
             {
-                //inline append to the string builder based on where we are in the row
+                // Inline append to the string builder based on where we are in the row
                 sb.Append((i < spacesEndPostion || i > asterisksEndPostion) ? ' ' : '*');
             }
 
