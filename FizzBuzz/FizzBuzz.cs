@@ -27,6 +27,7 @@ namespace FizzBuzz
             (i => i % 3 == 0, "Fizz"),
             (i => i % 5 == 0, "Buzz")
         };
+
         //this method allows adding new rules by giving it a condition as a function delegate and the output
         public void AddRule(Func<int, bool> condition, string output)
         {
