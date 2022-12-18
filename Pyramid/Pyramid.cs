@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 /*
  
@@ -16,42 +17,46 @@ namespace Pyramid
 {
     public class Program
     {
-        private static void Pyramid(int height, int row = 0)
+        private static void Pyramid(int height, int row = 0, StringBuilder sb = null)
         {
-            // Base case: If we have reached the last row, print it and return
-            if (row == height)
+            // Create a new StringBuilder on the first call
+            if (sb == null)
             {
-                PrintRow(height, row);
+                sb = new StringBuilder();
+            }
+
+            // Base case: If we have reached the last row, print it and return
+            if (row == height - 1)
+            {
+                PrintRow(height, row, sb);
+                Console.WriteLine(sb.ToString());
                 return;
             }
 
             // Print the current row
-            PrintRow(height, row);
+            PrintRow(height, row, sb);
 
             // Recurse to the next row
-            Pyramid(height, row + 1);
+            Pyramid(height, row + 1, sb);
         }
 
-        private static void PrintRow(int height, int row)
+        private static void PrintRow(int height, int row, StringBuilder sb)
         {
-            // Calculate the number of spaces and asterisks to print
-            int spaces = height - row - 1;
-            int asterisks = 2 * row + 1;
+            //Calculate the total row length
+            int rowLength = 2 * height - 1; 
 
-            // Print the leading spaces
-            for (int i = 0; i < spaces; i++)
-            {
-                Console.Write(" ");
-            }
+            // Make note of the indices in the pyramid row where spaces first end and asterisks end.
+            int spacesEndPostion = height - 1 - row;
+            int asterisksEndPostion = height - 1 + row;
 
-            // Print the asterisks
-            for (int i = 0; i < asterisks; i++)
+            for (int i = 0; i < rowLength; i++ )
             {
-                Console.Write("*");
+                //inline append to the string builder based on where we are in the row
+                sb.Append((i < spacesEndPostion || i > asterisksEndPostion) ? ' ' : '*');
             }
 
             // Move to the next line
-            Console.WriteLine();
+            sb.AppendLine();
         }
 
         public static void Main(string[] args)
