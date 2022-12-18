@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 /**
  *
@@ -20,26 +21,29 @@ namespace FizzBuzz
 {
     public class FizzBuzzEngine
     {
+        private Dictionary<Func<int, bool>, string> rules = new Dictionary<Func<int, bool>, string>
+        {
+            { i => i % 3 == 0, "Fizz" },
+            { i => i % 5 == 0, "Buzz" }
+        };
         public void Run(int limit = 100)
         {
             for (int i = 1; i <= limit; i++)
             {
                 string output = "";
-                if (i % 3 == 0)
+                foreach (var rule in rules)
                 {
-                    output += "Fizz";
-                }
-                
-                if (i % 5 == 0)
-                {
-                    output += "Buzz";
+                    if (rule.Key(i))
+                    {
+                        output += rule.Value;
+                    }
                 }
 
                 if (string.IsNullOrEmpty(output))
                 {
                     output = i.ToString();
                 }
-                
+
                 Console.WriteLine("{0}: {1}", i, output);
             }
         }
