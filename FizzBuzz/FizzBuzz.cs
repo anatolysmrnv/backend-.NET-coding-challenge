@@ -21,21 +21,34 @@ namespace FizzBuzz
 {
     public class FizzBuzzEngine
     {
-        private Dictionary<Func<int, bool>, string> rules = new Dictionary<Func<int, bool>, string>
+        //this is a list of tuples for initial FizzBuzz rules
+        private List<(Func<int, bool> condition, string output)> rules = new List<(Func<int, bool> condition, string output)>
         {
-            { i => i % 3 == 0, "Fizz" },
-            { i => i % 5 == 0, "Buzz" }
+            (i => i % 3 == 0, "Fizz"),
+            (i => i % 5 == 0, "Buzz")
         };
+        //this method allows adding new rules by giving it a condition as a function delegate and the output
+        public void AddRule(Func<int, bool> condition, string output)
+        {
+            rules.Add((condition, output));
+        }
+
+        //the main method that executes the rule check on the amount of numbers specified by the limit
         public void Run(int limit = 100)
         {
+            //example of the AddRule function in action using the suggestions from the description
+            AddRule(i => i * 10 > 100, "Foo");
+            AddRule(i => i % 7 == 0, "Bar");
+
+            //for each number, check if a rule applies and print the result, otherwise print the number
             for (int i = 1; i <= limit; i++)
             {
                 string output = "";
                 foreach (var rule in rules)
                 {
-                    if (rule.Key(i))
+                    if (rule.condition(i))
                     {
-                        output += rule.Value;
+                        output += rule.output;
                     }
                 }
 
